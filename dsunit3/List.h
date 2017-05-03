@@ -259,6 +259,10 @@ public:
 		return to;
 	}
 
+	private:
+		int theSize;
+		Node *head;
+		Node *tail;
 
 	void init()
 	{
