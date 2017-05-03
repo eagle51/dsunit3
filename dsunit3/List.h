@@ -225,6 +225,40 @@ public:
 		erase(--end());
 	}
 
+	iterator insert(iterator itr, const Object & x)
+	{
+		Node *p = itr.current;
+		theSize++;
+		return{ p->prev = p->prev->next = new Node{x, p->prev,p} };
+	}
+
+	iterator insert(iterator itr, const Object && x)
+	{
+		Node *p = itr.current;
+		theSize++;
+		return{ p->prev = p->prev->next = new Node{std::move(x),p->prev,p} };
+	}
+
+	iterator erase(iterator itr)
+	{
+		Node *p = itr.current;
+		iterator retVal{ p->next };
+		p->prev->next = p->next;
+		p->next->prev = p->prev;
+		delete p;
+		theSize--;
+
+		return retVal;
+	}
+
+	iterator erase(iterator from, iterator to)
+	{
+		for (iterator itr = from;itr != to;)
+			itr = erase(itr);
+
+		return to;
+	}
+
 
 	void init()
 	{
